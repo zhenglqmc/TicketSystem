@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    
+    <!-- 使用基于注解的自动装配 -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.movbooking"/>
+    
+    <!--连接池的数据源 使用c3p0数据库连接池的数据源-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="DriverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="JdbcUrl" value="jdbc:mysql://localhost:3306/moviebooking"/>
+        <property name="User" value="root"/>
+        <property name="Password" value="admin"/>
+        <!-- 其他优化参数 -->
+        <property name="minPoolSize" value="5"/>
+		<property name="maxPoolSize" value="30"/>
+		<property name="checkoutTimeout" value="1800"/>
+		<property name="maxStatements" value="20"/>
+        
+    </bean>
+    
+    <!-- =============DAO 层============== -->
+    <!-- Spring为Hibernate提供的一个SessionFactory实体类，它产生的Session会自动绑定到当前线程上-->
+    <bean id="sessionFactory" class = "org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="configLocation" value="/WEB-INF/hibernate.cfg.xml"/>
+        <property name="dataSource" ref = "dataSource"/>
+    </bean>
+    
+    <!-- ===============service层====================== -->
+    <!-- 配置Hibernate事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <!-- 检查上下文中所有bean, 查找使用@Transactional注解的Bean， 为他们添加事务通知， 通知属性通过参数定义-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+</beans>
