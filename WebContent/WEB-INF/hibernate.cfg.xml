@@ -17,7 +17,15 @@
 		<!-- SQL方言，这边设定的是MySQL -->
 		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 		
+		<!-- 用于自动自动创建|更新|验证数据库表结构 -->
+		<!-- value= "create":每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表-->
+		<!-- value="create-drop": 每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除-->
+		<!-- value="update" 最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库）,
+		    以后加载hibernate时根据 model类自动更新表结构,
+		    即使表结构改变了但表中的行仍然存在不会删除以前的行,
+		    要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会-->
 		<property name="hibernate.hbm2ddl.auto">create</property>
+		
 		
 		<!-- 数据库实例的JDBC url -->
 		<!--  
@@ -29,6 +37,9 @@
 		
 		<!-- list of xml mapping files -->
 		<mapping class="com.movbooking.entity.User"/>
+		<mapping class="com.movbooking.entity.Movie"/>
+		<mapping class="com.movbooking.entity.VideoHall"/>
+		<mapping class="com.movbooking.entity.ShowingOfFilm"/>
 		<mapping class="com.movbooking.entity.Cinema"/>
 		<mapping class="com.movbooking.entity.Ticket"/>
 

@@ -6,6 +6,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -15,14 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.movbooking.entity.User;
 import com.movbooking.services.UserService;
+import com.movbooking.util.ServletUtil;
 
 @Controller
 public class UserController {
+	private static Logger logger = Logger.getLogger(UserController.class.getName());
+	
 	@Autowired
 	private UserService userService;
 	
 	@RequestMapping(value="/testUser.html", method=RequestMethod.GET)
-	public String toLoginPage(@CookieValue(value="username", required=false) String username) {
+	public String toLoginPage(@CookieValue(value="username", required=false) String username, HttpServletRequest request) {
+		String ip = ServletUtil.getRemoteAddress(request);
+		logger.info(ip + " visit testUser.html");
+		
 		if (username == null) {
 			return "testUser";
 		} else {

@@ -16,11 +16,30 @@
         http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
 
     <!-- 开启注解 -->
+    
+    
     <context:component-scan base-package="com.movbooking.controller" />
-    <mvc:annotation-driven />
+    
+    
+    <mvc:annotation-driven>
+        <mvc:async-support default-timeout="30000" task-executor="taskExecutor"/>
+    </mvc:annotation-driven>
+    <!-- 线程配置文件 -->
+    <bean id ="taskExecutor"  class ="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >
+        <!-- 线程池维护线程的最少数量,线程数小于该数量时，仍会创建新线程 -->
+        <property name ="corePoolSize" value ="10" /> 
+        <!--  线程池维护线程所允许的空闲时间 -->
+        <property name ="keepAliveSeconds" value ="30" /> 
+        <!--  线程池维护线程的最大数量 -->
+        <property name ="maxPoolSize" value ="25" /> 
+        <!-- 线程池所使用的缓冲队列 -->
+        <property name ="queueCapacity" value ="100" /> 
+    </bean>
+    
+    
     
     <!-- static resource mapping , do not process by controller-->
-    <mvc:resources location="/resources" mapping="resources/**" />
+    <mvc:resources location="/resources" mapping="resources/**" cache-period="31556926" />
     
     <!-- when visit main page, jump to login controller -->
     <mvc:view-controller path="/" view-name="forward:/login.html"/>
