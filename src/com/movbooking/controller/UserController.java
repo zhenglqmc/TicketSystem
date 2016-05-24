@@ -25,20 +25,20 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value="/testUser.html", method=RequestMethod.GET)
-	public String toLoginPage(@CookieValue(value="username", required=false) String username, HttpServletRequest request) {
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String toLoginPage(@CookieValue(value="uid", required=false) String userid, HttpServletRequest request) {
 		String ip = ServletUtil.getRemoteAddress(request);
 		logger.info(ip + " visit testUser.html");
 		
-		if (username == null) {
-			return "testUser";
+		if (userid == null) {
+			return "login";
 		} else {
 			return "welcome";
 		}
 		
 	}
 	
-	@RequestMapping(value="/testUser/checkLogin", method=RequestMethod.POST)
+	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
 	@ResponseBody
 	public Callable<String> checkLogin(HttpServletRequest request, HttpServletResponse response) {
 		return new Callable<String>() {
@@ -47,11 +47,11 @@ public class UserController {
 				String username = request.getParameter("username").trim();
 				String password = request.getParameter("password").trim();
 				User user = new User(username, password);
-				boolean loginSuccess = userService.userLogin(user);
+				User userWithId = userService.userLogin(user);
 				String ans=null;
-				if (loginSuccess) {
+				if (userWithId != null) {
 					ans = "1";
-					Cookie cookie = new Cookie("username", username);
+					Cookie cookie = new Cookie("uid", userWithId.getId().toString());
 					cookie.setPath("/");
 					response.addCookie(cookie);
 				} else {
@@ -62,19 +62,22 @@ public class UserController {
 		};
 	}
 	
-	@RequestMapping(value="/testUser/register", method=RequestMethod.POST)
+	@RequestMapping(value="/register", method=RequestMethod.POST)
 	@ResponseBody
-	public Callable<String> register(HttpServletRequest request) {
+	public Callable<String> register(HttpServletRequest request, HttpServletResponse response) {
 		return new Callable<String>() {
 			@Override
 			public String call() throws Exception {
 				String username = request.getParameter("username").trim();
 				String password = request.getParameter("password").trim();
 				User user = new User(username, password);
-				boolean registerSuccess = userService.createNewUser(user);
+				User registerUser = userService.createNewUser(user);
 				String ans=null;
-				if (registerSuccess) {
+				if (registerUser != null) {
 					ans = "1";
+					Cookie cookie = new Cookie("uid", registerUser.getId().toString());
+					cookie.setPath("/");
+					response.addCookie(cookie);
 				} else {
 					ans = "0";
 				}

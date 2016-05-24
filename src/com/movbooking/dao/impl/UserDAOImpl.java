@@ -2,6 +2,7 @@ package com.movbooking.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,15 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User getUser(String userName) {
 		// TODO Auto-generated method stub
+		String hql = "FROM User U WHERE U.userName = :userName";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("userName", userName);
 		User user = null;
-		user = (User)getCurrentSession().get(User.class, userName);
+		@SuppressWarnings("unchecked")
+		List<User> result = query.list();
+		if (!result.isEmpty()) {
+			user = result.get(0);
+		}
 		return user;
 	}
 

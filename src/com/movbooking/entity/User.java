@@ -2,21 +2,27 @@ package com.movbooking.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="user")
 public class User {
 	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
+	
+	
 	@Column(name="username")
 	private String userName;
 	
 	@Column(name="password", nullable=false)
 	private String password;
+	
 	
 	public User() {}
 	
@@ -25,7 +31,7 @@ public class User {
 		this.password = password;
 	}
 	
-	@NotEmpty(message="用户名不能为空")
+
 	public String getUserName() {
 		return userName;
 	}
@@ -34,7 +40,11 @@ public class User {
 		this.userName = userName;
 	}
 	
-	@Size(min=1, max=20, message="密码长度应该在1-20之间")
+	public Integer getId() {
+		return id;
+	}
+
+
 	public String getPassword() {
 		return password;
 	}
@@ -42,9 +52,5 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User {userName=" + userName + ", password=" + password + "}";
-	}
 	
 }

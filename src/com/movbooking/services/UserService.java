@@ -13,23 +13,23 @@ public class UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	public boolean createNewUser(User user) {
+	public User createNewUser(User user) {
 		if (checkIsExit(user.getUserName())) {
-			return false;
+			return null;
 		}
 		userDAO.addUser(user);
-		return true;
+		return userDAO.getUser(user.getUserName());
 	}
 	
-	public boolean userLogin(User loginUser) {
+	public User userLogin(User loginUser) {
 		User user= userDAO.getUser(loginUser.getUserName());
 		if (user == null) {
-			return false;
+			return null;
 		} else {
 			if (user.getPassword().equals(loginUser.getPassword())) {
-				return true;
+				return user;
 			} else {
-				return false;
+				return null;
 			}
 		}
 	}

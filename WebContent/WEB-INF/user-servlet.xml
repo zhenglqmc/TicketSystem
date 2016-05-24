@@ -39,7 +39,7 @@
     
     
     <!-- static resource mapping , do not process by controller-->
-    <mvc:resources location="/resources" mapping="resources/**" cache-period="31556926" />
+    <mvc:resources location="/resources/" mapping="resources/**" cache-period="31556926" />
     
     <!-- when visit main page, jump to login controller -->
     <mvc:view-controller path="/" view-name="forward:/login.html"/>
