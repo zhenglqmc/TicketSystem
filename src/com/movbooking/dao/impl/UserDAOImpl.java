@@ -21,6 +21,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	public User getUserById(Integer id) {
+		User user = null;
+		user = (User)getCurrentSession().get(User.class, id);
+		return user;
+	}
+	
+	@Override
 	public void addUser(User user) {
 		getCurrentSession().save(user);
 	}
@@ -61,7 +68,7 @@ public class UserDAOImpl implements UserDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsers() {
-		return getCurrentSession().createQuery("from user").list();
+		return getCurrentSession().createQuery("from User").list();
 	}
 
 }
