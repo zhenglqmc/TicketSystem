@@ -7,36 +7,50 @@
 %>	
 
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 
 <head>
 	<meta charset="UTF-8">
-	<base href=" <%=basePath%>">   
+	<base href=" <%=basePath%>">  
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="resources/css/reset.css"> <!-- CSS reset -->
 	<link rel="stylesheet" href="resources/css/style.css"> <!-- Gem style -->
+	<!-- <script src="js/modernizr.js"></script>  -->
 	<!-- Modernizr -->
   	
 	<title>Log In &amp; Sign Up Form</title>
 </head>
 <body>
 	<header role="banner">
-		<div id="cd-logo"><a href="#0"><img src="resources/img/loginBar/cd-logo.svg" alt="Logo"></a></div>
-
+		<div id="cd-logo"><a href="javascript:"><img src="resources/img/loginBar/cd-logo.svg" alt="Logo"></a></div>
+		<div class = "user-banner">
+			
 		<nav class="main-nav">
 			<ul>
-				<!-- inser more links here -->
-				<li><a class="cd-signin" href="#0">登陆</a></li>
-				<li><a class="cd-signup">注册</a></li>
+				<li><a class="cd-signin" href="javascript:">登陆</a></li>
+				<li><a class="cd-signup" href="javascript:">注册</a></li>
 			</ul>
 		</nav>
+
+		<nav class="name-nav">
+			<ul>
+				<!-- inser more links here -->
+				<li><a class="cd-username" href="javascript:">用户名</a></li>
+				<li><a class="cd-logout" href="javascript:">退出</a></li>
+			</ul>
+		</nav>
+
+		</div>
+		
 	</header>
 
 	<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
 		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 			<ul class="cd-switcher">
-				<li><a href="#0">登陆</a></li>
-				<li><a href="#0">注册</a></li>
+				<li><a href="javascript:">登陆</a></li>
+				<li><a href="javascript:">注册</a></li>
 			</ul>
 
 			<div id="cd-login"> <!-- log in form -->
@@ -69,7 +83,7 @@
 					</p>
 				</form>
 				
-				<p class="cd-form-bottom-message"><a href="#0">忘记密码?</a></p>
+				<p class="cd-form-bottom-message"><a href="javascript:"">忘记密码?</a></p>
 				<!-- <a href="#0" class="cd-close-form">Close</a> -->
 			</div> <!-- cd-login -->
 
@@ -96,7 +110,7 @@
 
 					<p class="fieldset">
 						<input type="checkbox" id="accept-terms">
-						<label for="accept-terms">我接受服务协议表明您已经阅读并同意接受格瓦拉的 <a href="#0">服务协议</a></label>
+						<label for="accept-terms">我接受服务协议表明您已经阅读并同意接受格瓦拉的 <a href="javascript:">服务协议</a></label>
 					</p>
 
 					<p class="fieldset">
@@ -122,12 +136,13 @@
 					</p>
 				</form>
 
-				<p class="cd-form-bottom-message"><a href="#0">返回登陆界面</a></p>
+				<p class="cd-form-bottom-message"><a href="javascript:">返回登陆界面</a></p>
 			</div> <!-- cd-reset-password -->
-			<a href="#0" class="cd-close-form">Close</a>
+			<a href="javascript:" class="cd-close-form">Close</a>
 		</div> <!-- cd-user-modal-container -->
 	</div> <!-- cd-user-modal -->
 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="resources/js/jquery.cookie.js"></script>
 <script src="resources/js/main.js"></script> <!-- Gem jQuery -->
 </body>
 </html>
