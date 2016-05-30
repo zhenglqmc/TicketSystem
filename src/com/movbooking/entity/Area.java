@@ -20,8 +20,15 @@ public class Area {
 	
 	private String area;
 	
+	public Area(){
+		
+	}
 	
-	
+	public Area(String city, String area) {
+		this.city = city;
+		this.area = area;
+	}
+
 	public Integer getAreaid() {
 		return areaId;
 	}

@@ -20,6 +20,54 @@ public class Cinema {
 	private String description;
 	
 	private String cinemaImg;
+	
+	private String city;
+	
+	private String area;
+
+	
+	
+	
+	public Cinema(String name, String address, String description, String cinemaImg, String city, String area) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.description = description;
+		this.cinemaImg = cinemaImg;
+		this.city = city;
+		this.area = area;
+	}
+	
+	
+
+	public Cinema() {
+	}
+	
+	
+
+	public String getCity() {
+		return city;
+	}
+
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+
+	public String getArea() {
+		return area;
+	}
+
+
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+
 
 	public Integer getCinemaId() {
 		return cinemaId;

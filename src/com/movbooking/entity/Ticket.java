@@ -1,5 +1,8 @@
 package com.movbooking.entity;
 
+import java.util.Calendar;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,25 +15,41 @@ import javax.persistence.Table;
 public class Ticket {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="ticket_id")
 	private Integer ticketId;
 	
+	@Column(name="user_id")
 	private Integer userId;
 	
+	@Column(name="showing_id")
 	private Integer showingId;
 	
+	@Column(name="seat_row")
 	private Integer seatRow;
 	
+	@Column(name="set_col")
 	private Integer seatColumn;
 	
-	private String time;
+	@Column(name="buy_time")
+	private Calendar time;
+	
+	
+
+
+	public Ticket(Integer userId, Integer showingId, Integer seatRow, Integer seatColumn) {
+		super();
+		this.userId = userId;
+		this.showingId = showingId;
+		this.seatRow = seatRow;
+		this.seatColumn = seatColumn;
+		this.time = Calendar.getInstance();
+	}
+
 
 	public Integer getTicketId() {
 		return ticketId;
 	}
 
-	public void setTicketId(Integer ticketId) {
-		this.ticketId = ticketId;
-	}
 
 	public Integer getUserId() {
 		return userId;
@@ -64,11 +83,11 @@ public class Ticket {
 		this.seatColumn = seatColumn;
 	}
 
-	public String getTime() {
+	public Calendar getTime() {
 		return time;
 	}
 
-	public void setTime(String time) {
+	public void setTime(Calendar time) {
 		this.time = time;
 	}
 	

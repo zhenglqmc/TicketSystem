@@ -1,9 +1,13 @@
 package com.movbooking.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,16 +22,22 @@ public class CinemaDistribution {
 	
 	private String area;
 	
-	private String movieId;
+	private Integer movieId;
 	
-	private Integer cinemaId;
+	@ManyToOne(fetch=FetchType.EAGER, cascade=(CascadeType.ALL))
+	@JoinColumn(name="cinemaId")
+	private Cinema cinema;
 	
-	public CinemaDistribution(String city, String area, String movieId, Integer cinemaId) {
+
+	public CinemaDistribution() {
+	}
+	
+	public CinemaDistribution(String city, String area, Integer movieId, Cinema cinema) {
 		super();
 		this.city = city;
 		this.area = area;
 		this.movieId = movieId;
-		this.cinemaId = cinemaId;
+		this.cinema = cinema;
 	}
 
 
@@ -47,20 +57,21 @@ public class CinemaDistribution {
 		this.area = area;
 	}
 
-	public String getMovieId() {
+	public Integer getMovieId() {
 		return movieId;
 	}
 
-	public void setMovieId(String movieId) {
+	public void setMovieId(Integer movieId) {
 		this.movieId = movieId;
 	}
 
-	public Integer getCinemaId() {
-		return cinemaId;
+	public Cinema getCinema() {
+		return cinema;
 	}
 
-	public void setCinemaId(Integer cinemaId) {
-		this.cinemaId = cinemaId;
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
 	}
 	
 	

@@ -1,10 +1,14 @@
 package com.movbooking.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,13 +23,18 @@ public class Arrangement {
 	
 	private Integer cinemaId;
 	
-	private Integer showingId;
+	@ManyToOne(fetch=FetchType.EAGER, cascade=(CascadeType.ALL))
+	@JoinColumn(name="showing_id")
+	private ShowingOfFilm showing;
 	
-	public Arrangement(Integer movieId, Integer cinemaId, Integer showingId) {
-		super();
+	
+	public Arrangement() {
+	}
+	
+	public Arrangement(Integer movieId, Integer cinemaId, ShowingOfFilm showing) {
 		this.movieId = movieId;
 		this.cinemaId = cinemaId;
-		this.showingId = showingId;
+		this.showing = showing;
 	}
 
 	
@@ -52,12 +61,12 @@ public class Arrangement {
 		this.cinemaId = cinemaId;
 	}
 
-	public Integer getShowingId() {
-		return showingId;
+	public ShowingOfFilm getShowing() {
+		return showing;
 	}
 
-	public void setShowingId(Integer showingId) {
-		this.showingId = showingId;
+	public void setShowing(ShowingOfFilm showing) {
+		this.showing = showing;
 	}
 
 }
