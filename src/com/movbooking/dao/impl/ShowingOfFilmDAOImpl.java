@@ -2,6 +2,7 @@ package com.movbooking.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,24 @@ public class ShowingOfFilmDAOImpl implements ShowingOfFilmDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ShowingOfFilm> getShowings() {
-		return getCurrentSession().createQuery("from showing_of_film").list();
+		return getCurrentSession().createQuery("from ShowingOfFilm").list();
+	}
+
+	@Override
+	public ShowingOfFilm getShowing(ShowingOfFilm sh) {
+		String hql = "from ShowingOfFilm S where S.cinemaId=:cinemaId and S.movie=:movie "
+				+ "and S.videoHallNo=:videoHallNo and S.screenTime=:screenTime";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("cinemaId", sh.getCinemaId());
+		query.setParameter("movie", sh.getMovie());
+		query.setParameter("videoHallNo", sh.getVideoHallNo());
+		query.setParameter("screenTime", sh.getScreenTime());
+		@SuppressWarnings("unchecked")
+		List<ShowingOfFilm> slist = query.list();
+		if (!slist.isEmpty()) {
+			return slist.get(0);
+		}
+		return null;
 	}
 
 }

@@ -50,7 +50,7 @@ public class VideoHallDaoImpl implements VideoHallDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<VideoHall> getVideoHalls() {
-		return getCurrentSession().createQuery("from video_hall").list();
+		return getCurrentSession().createQuery("from VideoHall").list();
 	}
 
 }
