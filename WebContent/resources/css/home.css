@@ -1,0 +1,103 @@
+body {
+	font-family: '寰蒋闆呴粦', 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+/* menu banner */
+.ui.inverted.borderless.menu {
+	border-radius: 0;
+	max-height: 50px;
+	margin-bottom: 5em;
+}
+
+/* poster banner */
+.poster-banner {
+	width: 1405px;
+	height: 350px;
+	margin: 0 auto;
+	margin-bottom: 3em;
+}
+
+.poster-banner .poster {
+	float: left;
+}
+
+.poster-banner .poster img {
+	width: 1000px;
+	height: 350px;
+	background-color: gray;
+}
+
+.poster-banner .left.button,
+.poster-banner .right.button {
+	float: left;
+	width: 100px;
+	height: 400px;
+}
+
+.poster-banner .left.button {
+	margin-right: 100px;
+	background-color: rgba(0,0,0,0);
+}
+
+.poster-banner .right.button {
+	margin-left: 100px;
+	background-color: rgba(0,0,0,0);
+}
+
+.ui.button > .left.icon:not(.button),
+.ui.button > .right.icon:not(.button){
+	margin: 0;
+	margin-top: 160px;
+}
+
+/* hot list */
+.hot-list {
+	margin-bottom: 3em;
+}
+
+.movie {
+	width: 200px;
+	text-align: center;
+}
+
+.movie:hover {
+	cursor: pointer;
+}
+
+.movie-image {
+	width: 160px;
+	height: 220px;
+	border-radius: 3px;
+}
+
+.movie-name {
+	padding-top: 12px;
+}
+
+/* movie surface light effect */
+.movie .movie-name {
+	transition: color ease-in-out .2s;
+	-moz-transition: color ease-in-out .2s;
+	-webkit-transition: color ease-in-out .2s;
+}
+.movie:hover .movie-name {
+	color: #f72;
+}
+.movie-image {
+	transition: border ease-in-out .2s, box-shadow ease-in-out .2s;
+	-moz-transition: border ease-in-out .2s, -moz-box-shadow ease-in-out .2s;
+	-webkit-transition: border ease-in-out .2s, -webkit-box-shadow ease-in-out .2s;
+}
+.movie-image:hover {
+	outline: none;
+	border-color: #f72;
+	box-shadow: 0 0 30px #f72;
+	-moz-box-shadow: 0 0 30px #f72;
+	-webkit-box-shadow: 0 0 30px #f72;
+}
+
+/* footer banner */
+.ui.footer.segment {
+  margin: 5em 0em 0em;
+  padding: 5em 0em;
+}
