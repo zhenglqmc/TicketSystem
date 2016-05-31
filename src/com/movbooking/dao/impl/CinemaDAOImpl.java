@@ -50,7 +50,7 @@ public class CinemaDAOImpl implements CinemaDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cinema> getCinemas() {
-		return getCurrentSession().createQuery("from cinema").list();
+		return getCurrentSession().createQuery("from Cinema").list();
 	}
 
 }

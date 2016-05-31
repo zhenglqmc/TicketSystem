@@ -51,7 +51,7 @@ public class TicketDAOImpl implements TicktetDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Ticket> getTickets() {
-		return getCurrentSession().createQuery("from ticket").list();
+		return getCurrentSession().createQuery("from Ticket").list();
 	}
 
 }
