@@ -13,9 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.movbooking.dao.VideoHallDAO;
-import com.movbooking.dao.impl.VideoHallDaoImpl;
-import com.movbooking.util.JoinClassKeyOfVideoHall;
 
 @Entity
 @Table(name="showing_of_film")
@@ -35,6 +32,9 @@ public class ShowingOfFilm {
 	
 	@Column(name="screen_time")
 	private Calendar screenTime;
+	
+	@Column(name="end_time")
+	private Calendar endTime;
 	
 	@Column(name="video_hall_no")
 	private Integer videoHallNo;
@@ -59,8 +59,8 @@ public class ShowingOfFilm {
 	
 	public ShowingOfFilm() {}
 	
-	public ShowingOfFilm(Movie movie, Integer cinemaId, Calendar screenTime, Integer videoHallNo, String language,
-			float price, int showingType, String seatMatrix) {
+	public ShowingOfFilm(Movie movie, Integer cinemaId, Calendar screenTime, Calendar endTime, Integer videoHallNo, String language,
+			float price, int showingType) {
 		super();
 		this.movie = movie;
 		this.cinemaId = cinemaId;
@@ -69,8 +69,7 @@ public class ShowingOfFilm {
 		this.language = language;
 		this.price = price;
 		this.showingType = showingType;
-		this.seatMatrix = seatMatrix;
-		initMaxColAndRow();
+		this.endTime = endTime;
 	}
 
 	public String getSeatMatrix() {
@@ -81,6 +80,46 @@ public class ShowingOfFilm {
 		this.seatMatrix = seatMatrix;
 	}
 	
+	/*
+	 * type:0---not occupy; 1---been bought; 2---not a seat*/
+	public boolean setSeatMatrix(int row, int col, char type) {
+		StringBuffer seatMatrixBuffer = new StringBuffer(seatMatrix);
+		if (row >= 0 && row < maxRow && col >= 0 && col < maxCol) {
+			seatMatrixBuffer.setCharAt(row*maxCol+col, type);
+			this.seatMatrix = seatMatrixBuffer.toString();
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean bookSeat(int row, int col) {
+		//System.out.println("in showing of film: bookseat:---row:" + row + ", col:" + col);
+		//System.out.println("maxrow: " + maxRow+ ", maxCol: " + maxCol);
+		if (!(row >= 0 && row < maxRow && col >= 0 && col < maxCol)) {
+			return false;
+		} else {
+			StringBuffer seatMatrixBuffer = new StringBuffer(seatMatrix);
+			if (seatMatrixBuffer.charAt(row*maxCol+col) == 'a') {
+				seatMatrixBuffer.setCharAt(row*maxCol+col, 'b');
+				this.seatMatrix = seatMatrixBuffer.toString();
+				System.out.println("new seatMatrix: " + seatMatrix);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	
+
+	public Calendar getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Calendar endTime) {
+		this.endTime = endTime;
+	}
 
 	public int getMaxRow() {
 		return maxRow;
@@ -151,12 +190,50 @@ public class ShowingOfFilm {
 		this.showingType = showingType;
 	}
 	
-	private void initMaxColAndRow() {
+	
+	
+	public void setMaxRow(int maxRow) {
+		this.maxRow = maxRow;
+	}
+
+	public void setMaxCol(int maxCol) {
+		this.maxCol = maxCol;
+	}
+
+	public String getFormattedSeat() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for (int i = 0; i < maxRow; i++) {
+			sb.append("\"");
+			for (int j = 0; j < maxCol; j++) {
+				sb.append(seatMatrix.charAt(i*maxCol+j));
+			}
+			sb.append("\"");
+			if (i != maxRow - 1) {
+				sb.append(",");
+			}
+		}
+		sb.append("]");
+		return sb.toString();
+	}
+	/*
+	public void calcMaxColAndRow() {
 		VideoHallDAO videoHallDAO = new VideoHallDaoImpl();
 		JoinClassKeyOfVideoHall key = new JoinClassKeyOfVideoHall(cinemaId, videoHallNo);
 		VideoHall videoHall = videoHallDAO.getVideoHall(key);
 		this.maxRow = videoHall.getMaxRow();
 		this.maxCol = videoHall.getMaxColumn();
+		this.seatMatrix = new StringBuffer(videoHall.getSeatMatrix());
 	}
+	*/
+	
+	@Override
+	public String toString() {
+		return "ShowingOfFilm [showingId=" + showingId + ", movie=" + movie + ", cinemaId=" + cinemaId + ", screenTime="
+				+ screenTime + ", endTime=" + endTime + ", videoHallNo=" + videoHallNo + ", language=" + language
+				+ ", price=" + price + ", showingType=" + showingType + ", seatMatrix=" + seatMatrix + ", maxRow="
+				+ maxRow + ", maxCol=" + maxCol + "]";
+	}	
+	
 	
 }

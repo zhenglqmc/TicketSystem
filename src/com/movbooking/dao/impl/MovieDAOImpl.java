@@ -49,7 +49,7 @@ public class MovieDAOImpl implements MovieDAO{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Movie> getMovies() {
-		return getCurrentSession().createQuery("from movie").list();
+		return getCurrentSession().createQuery("from Movie").list();
 	}
 
 }

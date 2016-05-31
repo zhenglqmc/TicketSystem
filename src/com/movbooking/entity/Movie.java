@@ -1,6 +1,5 @@
 package com.movbooking.entity;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.movbooking.util.ConstantUtil;
-import com.movbooking.util.FileIOUtil;;
 
 @Entity
 @Table(name="movie")
@@ -31,7 +29,7 @@ public class Movie {
 	private String mainActor;  //主要演员
 	
 	@Column(name="showing_type")
-	private int showingType;  //3:3d or 2:2d
+	private String showingType;  //3:3d or 2:2d
 	
 	@Column(name="minutes")
 	private int minutes;  //电影时长
@@ -44,7 +42,7 @@ public class Movie {
 	
 	public Movie() {}
 	
-	public Movie(String name, String director, String mainActor, int showingType, int minutes, Calendar releaseDate,
+	public Movie(String name, String director, String mainActor, String showingType, int minutes, Calendar releaseDate,
 			String movieDescription) {
 		super();
 		this.name = name;
@@ -85,11 +83,11 @@ public class Movie {
 		this.mainActor = mainActor;
 	}
 
-	public int getShowingType() {
+	public String getShowingType() {
 		return showingType;
 	}
 
-	public void setShowingType(int showingType) {
+	public void setShowingType(String showingType) {
 		this.showingType = showingType;
 	}
 
@@ -123,7 +121,7 @@ public class Movie {
 	 *"/resources/img/movieInfo/movieImg/{name.jpg}"
 	 * */
 	public String computeMovieImgPath() {
-		String resPath = "resources/img/movieInfo/movieImg/" + this.name + ".jpg";
+		String resPath = "resources/img/movieImg/" + this.movieId + ".jpg";
 		return ConstantUtil.DOMAIN_URL + resPath;
 	}
 	
@@ -131,6 +129,7 @@ public class Movie {
 	/*电影简介
 	 *从"/data/movieInfo/movieDescription/{name.txt}"读取
 	 * */
+	/*
 	public String readMovieDescription(String fileName) {
 		String resPath = "../../data/movieInfo/movieDescription/"+ fileName + ".txt";
 		try {
@@ -140,6 +139,7 @@ public class Movie {
 			return "";
 		}
 	}
+	*/
 
 	@Override
 	public String toString() {

@@ -20,13 +20,18 @@ public class VideoHall {
 	@Column(name="max_row")
 	private Integer maxRow;
 	
+	//用'a'表示未售出，'b'表示已售出，'_'表示不是座位,'c'表示待转售
+	@Column(name="seat_matrix")
+	private String seatMatrix;
+	
 	public VideoHall() {}
 	
-	public VideoHall(Integer cinemaId, Integer hallNo, Integer maxColumn, Integer maxRow) {
+	public VideoHall(Integer cinemaId, Integer hallNo, Integer maxRow, Integer maxColumn, String seatMatrix) {
 		super();
 		this.videoHallKey = new JoinClassKeyOfVideoHall(cinemaId, hallNo);
 		this.maxColumn = maxColumn;
 		this.maxRow = maxRow;
+		this.seatMatrix = seatMatrix;
 	}
 
 	public Integer getCinemaId() {
@@ -53,6 +58,22 @@ public class VideoHall {
 	public void setMaxRow(Integer maxRow) {
 		this.maxRow = maxRow;
 	}
+
+	public String getSeatMatrix() {
+		return seatMatrix;
+	}
+
+	public void setSeatMatrix(String seatMatrix) {
+		this.seatMatrix = seatMatrix;
+	}
+
+	@Override
+	public String toString() {
+		return "VideoHall [videoHallKey=" + videoHallKey + ", maxColumn=" + maxColumn + ", maxRow=" + maxRow
+				+ ", seatMatrix=" + seatMatrix + "]";
+	}
+	
+	
 
 }
 
