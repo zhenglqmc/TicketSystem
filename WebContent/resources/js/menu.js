@@ -3,10 +3,12 @@ var thisMouth;
 var thisDay;
 var thisCity;
 var thisMovie;
+$(document).ready(function() {
+	thisMovie = (window.location.search).split('=')[1];
+})
 window.onload = function() {
 	thisCity = "广州";
 	initDay();
-	thisMovie = 1;
 	getArea(thisCity);
 	$("#menu_day").delegate("a", "click", function() {
 	var current_day = $("#menu_day .active");
@@ -14,7 +16,13 @@ window.onload = function() {
 		$(this).addClass("active");
 		thisMouth = $(this).attr("mouth");
 		thisDay = $(this).attr("day");
-		getSession($("#menu_cinema .active").attr("cinemaNum"), thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
+		var cinemaid = $("#menu_cinema .active").attr("cinemaNum");
+		if (cinemaid == undefined) {
+			$(".dimmer").addClass("active");
+		} else {
+			$(".dimmer").removeClass("active");
+			getSession(cinemaid, thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
+		}
 	});
 
 	$("#menu_zone").delegate("a", "click", function() {
@@ -23,7 +31,6 @@ window.onload = function() {
 		$(this).addClass("active");
 
 		getCinema(thisCity, $(this).text(), thisMovie);
-		getSession($("#menu_cinema .active").attr("cinemaNum"), thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
 		
 	});
 
@@ -33,9 +40,6 @@ window.onload = function() {
 		$(this).addClass("active");
 		getSession($("#menu_cinema .active").attr("cinemaNum"), thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
 	});
-$("#inputTest").change(function() {
-	console.log($(this).text());
-});
 }
 
 function getDate(AddDayCount) { 
@@ -70,7 +74,13 @@ function getArea(cityName) {
  			alert("系统ajax交互错误: " + textStatus);
  		},
   		success: function(data) {
-					menuArea(data)
+  					$("#menu_zone .item").remove();
+  					if (data == "") {
+  						$(".dimmer").addClass("active");
+  					} else {
+  						$(".dimmer").removeClass("active");
+						menuArea(data);
+					}
 				},
 		dataType: "text"
 	});
@@ -86,12 +96,19 @@ function getCinema(cityName, zoneName, movie) {
  			alert("系统ajax交互错误: " + textStatus);
  			},
   		success: function(data) {
-  					menuCinema(data)
-  				},
+  			$("#menu_cinema .item").remove();
+  			$("tbody").children().remove();
+  			if (data == "") {
+					$(".dimmer").addClass("active");
+			} else {
+					$(".dimmer").removeClass("active");
+  					menuCinema(data);
+  					getSession($("#menu_cinema .active").attr("cinemaNum"), thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
+			}
+  			},
 		dataType: "text"
 	});
 }
-
 
 function getSession(cinemaNum, movie, whichDay) {
 	$.ajax({
@@ -103,7 +120,13 @@ function getSession(cinemaNum, movie, whichDay) {
  			alert("系统ajax交互错误: " + textStatus);
  			},
   		success: function(data) {
-  			tableSession(data)
+  			$("tbody").children().remove();
+  			if (data == "") {
+					$(".dimmer").addClass("active");
+				} else {
+					$(".dimmer").removeClass("active");
+  			tableSession(data);
+				}
   			},
 		dataType: "text"
   		});
@@ -113,7 +136,6 @@ function getSession(cinemaNum, movie, whichDay) {
 function menuArea(data) {
 	var zones = data.split(";");
 	var zoneNum = zones.length;
-	$("#menu_zone .item").remove();
 	$("#menu_zone").append("<a class=\"active item\" zoneNum=\"0\">" + zones[0] +"</a>");
 	for (var i = 1; i < zoneNum; i++) {
 		$("#menu_zone").append("<a class=\"item\" zoneNum=\"" + i + "\">" + zones[i] +"</a>");
@@ -126,11 +148,10 @@ function menuArea(data) {
 function menuCinema(data) {
 	var cinemas = data.split(";");
 	var len = cinemas.length;
-	$("#menu_cinema .item").remove();
 	for (var l = 0; l < len; l++) {
 		var number = cinemas[l].split("|")[0];
 		var name = cinemas[l].split("|")[1];
-		$("#menu_cinema").append("<a class=\"item " + i + "\" cinemaNum=\"" + number +"\">" + name +"</a>");
+		$("#menu_cinema").append("<a class=\"item " + l + "\" cinemaNum=\"" + number +"\">" + name +"</a>");
 	}
 	$("#menu_cinema .item").eq(0).addClass("active");
 	getSession($("#menu_cinema .active").attr("cinemaNum"), thisMovie, thisYear+"-"+thisMouth+"-"+thisDay);
@@ -141,7 +162,6 @@ function menuCinema(data) {
 function tableSession(data) {
 	var sessions = data.split(";");
 	var len = sessions.length;
-	$("tbody").children().remove();
 	for (var i = 0; i < len; i++) {
 		addOneSession(sessions[i]);
 	}
@@ -160,7 +180,7 @@ function addOneSession(data) {
 	+ "</td><td class=\"single line center aligned\">" + language
 	+ "</td><td class=\"single line center aligned\">" + room
 	+ "</td><td class=\"single line center aligned\">" + price
-	+ "</td><td class=\"single line center aligned\"><div class=\"ui button\" href=\"" + number
+	+ "</td><td class=\"single line center aligned\"><div class=\"ui button\" href=\"bookSeat?sessionId=" + number
 	+ "\"> 选座购票</div></td></tr>";
 	$("tbody").append(input);
 }

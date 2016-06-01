@@ -101,3 +101,6 @@ body {
   margin: 5em 0em 0em;
   padding: 5em 0em;
 }
+#cinemaAndSession {
+	min-height: 200px;
+}
