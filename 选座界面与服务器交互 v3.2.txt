@@ -1,0 +1,47 @@
+【get请求】
+每条之间用分号“;”隔开。
+url: (/getShowingInfo)
+
+1，showingId，一个整数，用于标识唯一场次。
+2，电影名称（string: movieName）+电影上映时间(string: movieTime，格式为YYYYMMDDHHMM，例如“201608302100”表示8月30日21点上映)。
+3，票价(string: ticketPrice)。
+4，该场次座位信息（string，首先用两个下划线隔开的数字表示行数和列数;然后用'a'表示未售出，'b'表示已售出，'_'表示不是座位,'c'表示待转售。不同排之间用逗号','隔开。例如8行3列的座位：“8_3;00000000,20000002,20011002”）。
+
+【例】
+（JSON格式）
+{
+"showingId":"123",
+"movieName":"美国队长3",
+"movieTime":"201608302100",
+"ticketPrice":40.00,
+"rowAndCol":"8_8",
+"seatStatus":["aaaaaaaa,00000000,22222222,00011000,00300000,00000011,00200200,00200200"]
+"":""
+}
+
+（纯字符串表示）
+"123;美国队长3;201608302100;40;8_8;00000000,00000000,22222222,00011000,00300000,00000011,00200200,00200200"
+
+【post请求】
+1，showingId，一个整数，用于标识唯一场次。
+2，购买的座位信息（string: shoppingBasket，首先一个数字表示一共几张票，然后一串字符串，逗号隔开的数字对分别表示第几排第几座。例如3张票，“3;1_3,2_5,2_6”)
+url: (/getShoppingBasket)
+3，总票价(string: totalPrice)。
+url: (/getTotalPrice)
+
+
+【例】
+（JSON格式）
+{
+"showingId":"123",
+"ticketNumber":3,
+"tickets":"1_3,2_5,2_6",
+"totalPrice":120
+}
+
+（纯字符串表示）
+showingId=123&ticketNumber=3&tickets=1_3,2_5,2_6&totalPrice=120
+
+
+【用户】
+同首页。
